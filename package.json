@@ -17,12 +17,12 @@
   "author": "Shopify Inc.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cleanio/koa-shopify-auth.git"
+    "url": "git+https://github.com/dimaturishchev/koa-shopify-auth.git"
   },
   "bugs": {
-    "url": "https://github.com/cleanio/koa-shopify-auth/issues"
+    "url": "https://github.com/dimaturishchev/koa-shopify-auth/issues"
   },
-  "homepage": "https://github.com/cleanio/koa-shopify-auth",
+  "homepage": "https://github.com/dimaturishchev/koa-shopify-auth",
   "dependencies": {
     "@shopify/network": "^1.5.0",
     "koa-compose": ">=3.0.0 <4.0.0",
