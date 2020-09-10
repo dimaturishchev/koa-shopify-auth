@@ -12,7 +12,7 @@ export default function createOAuthStart(
   options: OAuthStartOptions,
   callbackPath: string,
 ) {
-  return function oAuthStart(ctx: Context) {
+  return async function oAuthStart(ctx: Context) {
     const {myShopifyDomain} = options;
     const {query} = ctx;
     const {shop} = query;
@@ -29,7 +29,7 @@ export default function createOAuthStart(
 
     ctx.cookies.set(TOP_LEVEL_OAUTH_COOKIE_NAME, '', getCookieOptions(ctx));
 
-    const formattedQueryString = oAuthQueryString(ctx, options, callbackPath);
+    const formattedQueryString = await oAuthQueryString(ctx, options, callbackPath);
 
     ctx.redirect(
       `https://${shop}/admin/oauth/authorize?${formattedQueryString}`,

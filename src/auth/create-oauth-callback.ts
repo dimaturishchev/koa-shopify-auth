@@ -11,7 +11,13 @@ export default function createOAuthCallback(config: AuthConfig) {
   return async function oAuthCallback(ctx: Context) {
     const {query, cookies} = ctx;
     const {code, hmac, shop, state: nonce} = query;
-    const {apiKey, secret, afterAuth} = config;
+    let {apiKey, secret, afterAuth} = config;
+    if (typeof apiKey === 'function') {
+      apiKey = await apiKey(ctx);
+    }
+    if (typeof secret === 'function') {
+      secret = await secret(ctx);
+    }
 
     if (nonce == null || cookies.get('shopifyNonce') !== nonce) {
       ctx.throw(403, Error.NonceMatchFailed);

@@ -38,12 +38,12 @@ describe('oAuthQueryString', () => {
     mockedNonce.mockImplementation(() => fakeNonce);
   });
 
-  it('returns a valid query string', () => {
+  it('returns a valid query string', async () => {
     const ctx = createMockContext({
       url: `https://${baseUrl}?${query({shop})}`,
     });
 
-    const generatedQueryString = oAuthQueryString(
+    const generatedQueryString = await oAuthQueryString(
       ctx,
       baseConfig,
       callbackPath,
@@ -52,22 +52,22 @@ describe('oAuthQueryString', () => {
     expect(generatedQueryString).toBe(query(queryData));
   });
 
-  it('sets nonce cookie', () => {
+  it('sets nonce cookie', async () => {
     const ctx = createMockContext({
       url: `https://${baseUrl}?${query({shop})}`,
     });
 
-    oAuthQueryString(ctx, baseConfig, callbackPath);
+    await oAuthQueryString(ctx, baseConfig, callbackPath);
 
     expect(ctx.cookies.set).toHaveBeenCalledWith('shopifyNonce', fakeNonce, {});
   });
 
-  it('query string includes per-user grant for accessMode: online', () => {
+  it('query string includes per-user grant for accessMode: online', async () => {
     const ctx = createMockContext({
       url: 'https://myapp.com/auth?shop=shop1.myshopify.io',
     });
 
-    const generatedQueryString = oAuthQueryString(
+    const generatedQueryString = await oAuthQueryString(
       ctx,
       {...baseConfig, accessMode: 'online'},
       callbackPath,

@@ -41,19 +41,19 @@ describe('OAuthStart', () => {
     expect(ctx.throw).toHaveBeenCalledWith(400, Error.ShopParamMissing);
   });
 
-  it('throws a 400 when an invalid shop query parameter is given', () => {
+  it('throws a 400 when an invalid shop query parameter is given', async () => {
     const oAuthStart = createOAuthStart(baseConfig, callbackPath);
     const ctx = createMockContext({
       url: `https://${baseUrl}?${query({badShop})}`,
       throw: jest.fn(),
     });
 
-    oAuthStart(ctx);
+    await oAuthStart(ctx);
 
     expect(ctx.throw).toHaveBeenCalledWith(400, Error.ShopParamMissing);
   });
 
-  it('clears the top-level cookie', () => {
+  it('clears the top-level cookie', async () => {
     const oAuthStart = createOAuthStart(baseConfig, callbackPath);
     const ctx = createMockContext({
       url: `https://${baseUrl}?${query({shop})}`,
@@ -61,7 +61,7 @@ describe('OAuthStart', () => {
 
     (oAuthQueryString as any).mockReturnValue('abc=123');
 
-    oAuthStart(ctx);
+    await oAuthStart(ctx);
 
     expect(ctx.cookies.set).toHaveBeenCalledWith(
       'shopifyTopLevelOAuth',
@@ -70,7 +70,7 @@ describe('OAuthStart', () => {
     );
   });
 
-  it('redirects to redirectionURL with the returned query string', () => {
+  it('redirects to redirectionURL with the returned query string', async () => {
     const oAuthStart = createOAuthStart(baseConfig, callbackPath);
     const ctx = createMockContext({
       url: `https://${baseUrl}?${query({shop})}`,
@@ -78,7 +78,7 @@ describe('OAuthStart', () => {
 
     (oAuthQueryString as any).mockReturnValue('abc=123');
 
-    oAuthStart(ctx);
+    await oAuthStart(ctx);
 
     expect(oAuthQueryString).toHaveBeenCalledWith(
       ctx,
@@ -90,7 +90,7 @@ describe('OAuthStart', () => {
     );
   });
 
-  it('accepts mixed-case shop parameters', () => {
+  it('accepts mixed-case shop parameters', async () => {
     const oAuthStart = createOAuthStart(baseConfig, callbackPath);
     const ctx = createMockContext({
       url: `https://${baseUrl}?${query({shop: uppercaseShop})}`,
@@ -98,7 +98,7 @@ describe('OAuthStart', () => {
 
     (oAuthQueryString as any).mockReturnValueOnce('');
 
-    oAuthStart(ctx);
+    await oAuthStart(ctx);
 
     expect(ctx.redirect).toHaveBeenCalledWith(
       `https://${uppercaseShop}${redirectionURL}?`,

@@ -18,9 +18,16 @@ export default function createEnableCookies({
   apiKey,
   prefix,
 }: OAuthStartOptions) {
-  return function enableCookies(ctx: Context) {
+  return async function enableCookies(ctx: Context) {
     const {query} = ctx;
     const {shop} = query;
+    let processedApiKey;
+    if (typeof apiKey === 'function') {
+      processedApiKey = await apiKey(ctx);
+    } else {
+      processedApiKey = apiKey;
+    }
+
 
     if (shop == null) {
       ctx.throw(400, Error.ShopParamMissing);
@@ -39,7 +46,7 @@ export default function createEnableCookies({
   <title>Redirecting…</title>
 
   <script>
-    window.apiKey = "${apiKey}";
+    window.apiKey = "${processedApiKey}";
     window.shopOrigin = "https://${encodeURIComponent(shop)}";
 
     ${itpHelper}

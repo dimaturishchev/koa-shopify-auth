@@ -9,7 +9,7 @@ import getCookieOptions from './cookie-options';
 
 const createNonce = nonce();
 
-export default function oAuthQueryString(
+export default async function oAuthQueryString(
   ctx: Context,
   options: OAuthStartOptions,
   callbackPath: string,
@@ -20,11 +20,18 @@ export default function oAuthQueryString(
   const requestNonce = createNonce();
   cookies.set('shopifyNonce', requestNonce, getCookieOptions(ctx));
 
+  let processedApiKey;
+  if (typeof apiKey === 'function') {
+    processedApiKey = await apiKey(ctx);
+  } else {
+    processedApiKey = apiKey;
+  }
+
   /* eslint-disable @typescript-eslint/camelcase */
   const redirectParams = {
     state: requestNonce,
     scope: scopes.join(', '),
-    client_id: apiKey,
+    client_id: processedApiKey,
     redirect_uri: `https://${host}${callbackPath}`,
   };
   /* eslint-enable @typescript-eslint/camelcase */

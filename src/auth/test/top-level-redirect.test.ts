@@ -13,13 +13,13 @@ const shopOrigin = 'shop1.myshopify.io';
 const apiKey = 'fakekey';
 
 describe('TopLevelRedirect', () => {
-  it('redirects to the provided path with shop parameter', () => {
+  it('redirects to the provided path with shop parameter', async () => {
     const topLevelRedirect = createTopLevelRedirect(apiKey, path);
     const ctx = createMockContext({
       url: `https://${baseUrl}?${query({shop})}`,
     });
 
-    topLevelRedirect(ctx);
+    await topLevelRedirect(ctx);
 
     expect(ctx.body).toBe(
       redirectionPage({
