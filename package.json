@@ -1,8 +1,8 @@
 {
-  "name": "@shopify/koa-shopify-auth",
+  "name": "koa-shopify-auth",
   "version": "3.1.70",
   "license": "MIT",
-  "description": "Middleware to authenticate a Koa application with Shopify",
+  "description": "Fork of @shopify/koa-shopify-auth with support for providing apiKey and secret depending on ctx",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "scripts": {
@@ -17,12 +17,12 @@
   "author": "Shopify Inc.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Shopify/koa-shopify-auth.git"
+    "url": "git+https://github.com/cleanio/koa-shopify-auth.git"
   },
   "bugs": {
-    "url": "https://github.com/Shopify/koa-shopify-auth/issues"
+    "url": "https://github.com/cleanio/koa-shopify-auth/issues"
   },
-  "homepage": "https://github.com/Shopify/koa-shopify-auth/README.md",
+  "homepage": "https://github.com/cleanio/koa-shopify-auth",
   "dependencies": {
     "@shopify/network": "^1.5.0",
     "koa-compose": ">=3.0.0 <4.0.0",
