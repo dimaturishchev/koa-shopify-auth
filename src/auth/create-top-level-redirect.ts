@@ -1,8 +1,7 @@
 import querystring from 'querystring';
 
 import {Context} from 'koa';
-
-import redirectionPage from './redirection-page';
+ import redirectionPage from './redirection-page';
 
 export default function createTopLevelRedirect(apiKey: string | ((ctx: Context) => Promise<string>), path: string) {
   return async function topLevelRedirect(ctx: Context) {
@@ -14,8 +13,6 @@ export default function createTopLevelRedirect(apiKey: string | ((ctx: Context) 
     } else {
       processedApiKey = apiKey;
     }
-
-    console.log('processedApiKey', processedApiKey);
 
     const params = {shop};
     const queryString = querystring.stringify(params);
